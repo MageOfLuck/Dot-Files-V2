@@ -1,3 +1,9 @@
+libcava
+minecraft-launcher
+qt6-m3shapes-git
+themechanger-git
+ttf-rubik-vf
+vesktop
 vicinae-bin
 wayle-bin
-vscodium
+win11fonts-auto

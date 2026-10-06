@@ -30,9 +30,6 @@ AUR_HELPER=""
 if command -v paru &>/dev/null; then
     AUR_HELPER="paru"
     ok "paru already present."
-elif command -v yay &>/dev/null; then
-    AUR_HELPER="yay"
-    ok "yay already present."
 else
     info "Installing paru (AUR helper)..."
     sudo pacman -S --needed --noconfirm base-devel git
@@ -41,25 +38,6 @@ else
     rm -rf /tmp/paru-build
     AUR_HELPER="paru"
     ok "paru installed."
-fi
-
-# ================================================================
-# 3. NVIDIA
-# ================================================================
-
-if pacman -Q 2>/dev/null | grep -q 'linux-cachyos.*nvidia-open'; then
-    info "Detected CachyOS bundled nvidia-open kernel — skipping nvidia-open-dkms."
-    sudo pacman -S --needed --noconfirm \
-        nvidia-utils \
-        lib32-nvidia-utils \
-        nvidia-settings
-else
-    info "No bundled nvidia-open kernel detected — installing DKMS variant."
-    sudo pacman -S --needed --noconfirm \
-        nvidia-open-dkms \
-        nvidia-utils \
-        lib32-nvidia-utils \
-        nvidia-settings
 fi
 
 # ================================================================
@@ -132,16 +110,17 @@ fi
 # ================================================================
 DOTFILES_DIR="$HOME/.dotfiles"
 if [[ ! -d "$DOTFILES_DIR" ]]; then
-    info "Cloning dotfiles repo..."
-    git clone https://github.com/MageOfLuck/Mages-Dot-Files.git "$DOTFILES_DIR"
-    ok "Cloned to $DOTFILES_DIR."
+    info "Moving dotfiles folders to $DOTFILES_DIR..."
+    mkdir -p "$DOTFILES_DIR"
+    shopt -s nullglob
+    for dir in */; do
+        mv "$dir" "$DOTFILES_DIR/"
+    done
+    shopt -u nullglob
+    ok "Moved folders to $DOTFILES_DIR."
 else
-    warn "$DOTFILES_DIR already exists, skipping clone."
+    warn "$DOTFILES_DIR already exists, skipping move."
 fi
-
-info "Stowing dotfiles (hypr wayle vicinae wezterm zsh local-bin)..."
-(cd "$DOTFILES_DIR" && stow hypr wayle vicinae wezterm zsh local-bin)
-ok "Dotfiles stowed."
 
 echo
 ok "Rebuild complete.
