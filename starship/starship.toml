@@ -1,0 +1,66 @@
+# starship.toml
+# Save to ~/.config/starship.toml (or $STARSHIP_CONFIG).
+# Reference: https://starship.rs/config/
+
+"$schema" = "https://starship.rs/config-schema.json"
+format = "[$username](bright-purple)$hostname$directory([](fg:surface))$line_break$character"
+right_format = ""
+add_newline = false
+palette = "mocha"
+
+[palettes.mocha]
+directory = "#a28fb8"
+green = "#ffffff"
+red = "#f38ba8"
+modified = "#f9e2af"
+duration = "#a6adc8"
+time = "#ffffff"
+surface = "#313244"
+separator = "#6c7086"
+foreground = "#cdd6f4"
+blue = "#49515f"
+
+[character]
+success_symbol = "[❯](bold fg:green)"
+error_symbol = "[❯](bold fg:red)"
+vimcmd_symbol = "[❮](bold fg:green)"
+format = "$symbol "
+
+[cmd_duration]
+format = "[ $duration ](fg:duration bg:surface)"
+min_time = 3000
+
+[directory]
+format = "[ $path ](bold fg:directory)([](fg:separator bg:surface))"
+style = "bold #a28fb8"
+truncate_to_repo = false
+truncation_symbol = "…/"
+
+[git_branch]
+format = "[ $branch]($style)"
+style = "bg:surface fg:green"
+symbol = ""
+
+[git_status]
+format = "[$all_status$ahead_behind]($style)"
+style = "bg:surface fg:modified"
+
+[hostname]
+style = "bold #46b9a0"
+ssh_only = false
+format = "[$ssh_symbol$hostname]($style)( in )"
+
+[jobs]
+format = "[ $symbol$number ](bold fg:directory bg:surface)"
+style = "bold fg:directory bg:surface"
+
+[status]
+disabled = false
+format = "[ $symbol$status ](bold fg:red bg:surface)"
+symbol = "✘"
+style = "bold fg:red bg:surface"
+
+[username]
+show_always = true
+style_user = "bold #7f82ee"
+format = "[MageOfLuck]($style)[ in ](time)"

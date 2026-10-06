@@ -1,0 +1,66 @@
+[bar]
+dropdown-opacity = 98
+
+[[bar.layout]]
+monitor = "*"
+show = true
+right = [
+    { name = "Sound", modules = [
+    "bluetooth",
+    "volume",
+    "network",
+] },
+    "separator",
+    { name = "Clock", modules = [
+    "notifications",
+    "clock",
+] },
+]
+
+[[bar.layout.left]]
+name = "System"
+modules = [
+    "dashboard",
+    "hyprland-workspaces",
+]
+
+[[bar.layout.left]]
+name = "Utilization"
+modules = ["media"]
+
+[[bar.layout.center]]
+name = "General"
+modules = ["window-title"]
+
+[styling.palette]
+surface = "#241f31"
+elevated = "#575fbf"
+
+[modules.bluetooth]
+icon-color = "#000000"
+
+[modules.clock]
+icon-color = "#000000"
+
+[modules.dashboard]
+icon-color = "#000000"
+dropdown-logout-command = "command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"
+
+[modules.media]
+icon-color = "#000000"
+
+[modules.notifications]
+icon-color = "#000000"
+popup-monitor = "DP-2"
+
+[modules.volume]
+border-color = "fg-default"
+icon-color = "#000000"
+icon-bg-color = "#40bf7b"
+dropdown-app-icons = "native"
+
+[modules.window-title]
+icon-color = "#000000"
+
+[osd]
+monitor = "DP-2"

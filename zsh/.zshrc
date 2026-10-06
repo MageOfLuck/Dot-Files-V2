@@ -9,6 +9,10 @@ HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt SHARE_HISTORY
+
+eval "$(starship init zsh)"
 
 alias update='sudo pacman -Syu && paru -Sua'
 
