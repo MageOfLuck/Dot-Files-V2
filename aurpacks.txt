@@ -1,0 +1,3 @@
+vicinae-bin
+wayle-bin
+vscodium

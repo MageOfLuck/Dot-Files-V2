@@ -1,0 +1,34 @@
+[meta]
+version = 1
+name = "Nightshade Violet"
+description = "Deep purple base with lavender text and violet accents."
+variant = "dark"
+inherits = "vicinae-dark"
+
+[colors.core]
+background = "#1A1523"           # deep violet-black
+secondary_background = "#130F1B" # even darker, for panels/sidebars
+foreground = "#E4DEF5"           # soft lavender-white text
+border = "#332A47"               # muted violet-grey border
+accent = "#A78BFA"               # primary violet accent (buttons, focus, selection)
+
+[colors.accents]
+purple = "#A78BFA"
+magenta = "#D291F0"
+blue = "#8AA3F5"
+cyan = "#8FD9D2"
+green = "#9FE0A6"
+yellow = "#F2D98D"
+orange = "#F2AE7E"
+red = "#F27E9D"
+
+[colors.input]
+background = "#221B30"
+border = "colors.core.border"
+border_focus = "colors.core.accent"
+foreground = "colors.core.foreground"
+placeholder = { name = "colors.core.foreground", opacity = 0.45 }
+
+[colors.list]
+item_selected_background = { name = "colors.core.accent", opacity = 0.18 }
+item_hover_background = { name = "colors.core.accent", opacity = 0.08 }

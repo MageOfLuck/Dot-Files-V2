@@ -1,0 +1,158 @@
+# Wayle configuration file
+[general]
+font-sans = "InputMono Nerd Font"
+
+[bar]
+scale = 0.949999988079071
+padding = 0.0
+padding-ends = 0.10000000149011612
+module-gap = 0.8999999761581421
+bg = "#000000"
+background-opacity = 50
+border-location = "bottom"
+border-width = 2
+border-color = "fg-default"
+shadow = "floating"
+button-variant = "icon-square"
+button-bg-opacity = 0
+button-icon-padding = 1.25
+button-label-size = 0.949999988079071
+button-label-padding = 1.2999999523162842
+button-gap = 1.600000023841858
+button-group-border-location = "top"
+button-group-border-width = 2
+button-group-padding = 0.75
+button-group-module-gap = 0.3499999940395355
+button-group-background = "#150733"
+button-group-opacity = 0
+button-group-border-color = "fg-default"
+dropdown-opacity = 80
+
+[[bar.layout]]
+monitor = "*"
+show = true
+right = [
+    { name = "Sound", modules = [
+    "bluetooth",
+    "volume",
+    "microphone",
+    "network",
+] },
+    "separator",
+    { name = "Clock", modules = [
+    "notifications",
+    "clock",
+] },
+]
+
+[[bar.layout.left]]
+name = "System"
+modules = [
+    "dashboard",
+    "hyprland-workspaces",
+]
+
+[[bar.layout.left]]
+name = "Utilization"
+modules = [
+    "weather",
+    "media",
+]
+
+[[bar.layout.center]]
+name = "General"
+modules = ["window-title"]
+
+[styling]
+rounding = "md"
+
+[styling.palette]
+surface = "#2f116e"
+elevated = "#000000"
+fg-muted = "#bac2de"
+primary = "#b4befe"
+red = "#f38ba8"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+blue = "#74c7ec"
+
+[modules.bluetooth]
+icon-color = "bg-base"
+icon-bg-color = "#4a6efd"
+label-color = "#ffffff"
+label-max-length = 16
+button-bg-color = "#39539f"
+
+[modules.clock]
+icon-color = "bg-elevated"
+icon-bg-color = "#db7849"
+label-color = "#ffffff"
+dropdown-show-seconds = true
+
+[modules.cpu]
+icon-color = "bg-elevated"
+icon-bg-color = "#ffffff"
+label-color = "#ffffff"
+
+[modules.dashboard]
+icon-color = "#ffffff"
+icon-bg-color = "#b9508d"
+
+[modules.hyprland-workspaces]
+min-workspace-count = 1
+numbering = "relative"
+app-icons-show = true
+active-indicator = "underline"
+active-color = "#cf59a2"
+
+[modules.media]
+border-color = "fg-default"
+icon-color = "bg-elevated"
+icon-bg-color = "#a460d5"
+label-color = "fg-default"
+
+[modules.microphone]
+icon-color = "bg-elevated"
+icon-bg-color = "#35ff59"
+label-color = "#ffffff"
+
+[modules.network]
+icon-color = "#000000"
+icon-bg-color = "#f3ff69"
+label-color = "#ffffff"
+
+[modules.notifications]
+icon-color = "bg-elevated"
+icon-bg-color = "#ffc744"
+label-color = "#ffffff"
+popup-max-visible = 3
+
+[modules.ram]
+icon-color = "bg-elevated"
+icon-bg-color = "#ffffff"
+label-color = "#ffffff"
+
+[modules.storage]
+icon-color = "bg-elevated"
+icon-bg-color = "#ffffff"
+label-color = "#ffffff"
+
+[modules.volume]
+border-color = "transparent"
+icon-color = "bg-elevated"
+icon-bg-color = "#29d9ab"
+label-color = "#ffffff"
+
+[modules.weather]
+location = "Windermere"
+units = "imperial"
+icon-bg-color = "#dc8add"
+label-color = "#ffffff"
+
+[modules.window-title]
+icon-color = "bg-elevated"
+icon-bg-color = "#3a32fc"
+label-color = "#ffffff"
+
+[wallpaper]
+engine-enabled = false
