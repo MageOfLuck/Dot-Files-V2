@@ -3,7 +3,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
-PROMPT='%F{#80FFF0}%m%f %F{#6E69BC}%~%f %# '
+#PROMPT='%F{#80FFF0}%m%f %F{#6E69BC}%~%f %# '
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -15,6 +15,14 @@ setopt SHARE_HISTORY
 eval "$(starship init zsh)"
 
 alias update='sudo pacman -Syu && paru -Sua'
+alias resync='sudo pacman -Syyu'
+alias install='sudo pacman -S'
+alias search='pacman -Ss'
+alias remove='sudo pacman -R'
+alias removeAll='sudo pacman -Rns'
+alias listOrphans='pacman -Qdt'
+alias showAllPackages='pacman -Qqe'
+alias isInstalled='pacman -Qqs'
 
 # better completion menu
 zstyle ':completion:*' menu select
