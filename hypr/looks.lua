@@ -20,9 +20,9 @@ hl.layer_rule({
 hl.config({
     general = {
         gaps_in  = 4,
-        gaps_out = { top = 3, right = 10, bottom = 10, left = 10 },
+        gaps_out = { top = 6, right = 6, bottom = 6, left = 6 },
 
-        border_size = 1,
+        border_size = 0,
 
         col = {
             active_border   = { colors = {"#3602C2", "#230085"}, angle = 45 },

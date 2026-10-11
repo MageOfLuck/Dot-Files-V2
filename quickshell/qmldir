@@ -1,0 +1,19 @@
+module EdgeControl
+singleton Settings 1.0 Settings.qml
+singleton ControlState 1.0 ControlState.qml
+ScreenPanel 1.0 ScreenPanel.qml
+SpaceReservation 1.0 SpaceReservation.qml
+Alerts 1.0 Alerts.qml
+NotificationHub 1.0 NotificationHub.qml
+MenuButton 1.0 MenuButton.qml
+MenuView 1.0 MenuView.qml
+AudioRow 1.0 AudioRow.qml
+AudioMenu 1.0 AudioMenu.qml
+BluetoothMenu 1.0 BluetoothMenu.qml
+NetworkMenu 1.0 NetworkMenu.qml
+NotificationMenu 1.0 NotificationMenu.qml
+ExtrasMenu 1.0 ExtrasMenu.qml
+MenuPanel 1.0 MenuPanel.qml
+SleekComboBox 1.0 SleekComboBox.qml
+SleekTextField 1.0 SleekTextField.qml
+SleekSlider 1.0 SleekSlider.qml
