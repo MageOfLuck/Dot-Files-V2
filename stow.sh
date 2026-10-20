@@ -12,13 +12,13 @@ DOTFILES_DIR="$HOME/.dotfiles"
 PACKAGES=(
   "hypr:$HOME/.config/hypr"
   "swappy:$HOME/.config/swappy"
-  "wayle:$HOME/.config/wayle"
   "vicinae:$HOME/.config/vicinae"
   "starship:$HOME/.config"
   "wezterm:$HOME/.config/wezterm"
   "bin:$HOME/.local/bin"
   "vicinae-themes:$HOME/.local/share/vicinae/themes"
   "zsh:$HOME"
+  "quickshell:$HOME/.config/quickshell"
 )
  
 # Hyprland generates its own hyprland.lua, which blocks the symlink.

@@ -15,13 +15,14 @@ hl.bind(secMod .. " + D", hl.dsp.exec_cmd("discord"))
 hl.bind(secMod .. " + S", hl.dsp.exec_cmd("steam"))
 hl.bind(secMod .. " + E", hl.dsp.exec_cmd("easyeffects"))
 hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd("lact"))
-hl.bind("XF86Tools", hl.dsp.exec_cmd("onlyoffice-desktopeditors"))
-hl.bind("XF86Launch5", hl.dsp.exec_cmd("shelly-ui"))
+hl.bind("XF86Tools", hl.dsp.exec_cmd("/usr/bin/euro-office-euro-office"))
+hl.bind("XF86Launch5", hl.dsp.exec_cmd("hyprctl reload"))
 hl.bind("XF86Launch6", hl.dsp.exec_cmd('qs ipc call control toggleReserve'))
 --(found using wev)
 
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(secMod .. " + C", hl.dsp.window.close())
+hl.bind(secMod .. "+ K", hl.dsp.window.kill({window}))
 
 hl.bind(secMod .. " + M", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
 
@@ -31,6 +32,10 @@ hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd("vicinae toggle"), { description 
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 hl.bind("Print", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | swappy -f -"))
 
+--brightness commands
+hl.bind("SHIFT + F1", hl.dsp.exec_cmd("brightness set 1"))
+hl.bind("SHIFT + F2", hl.dsp.exec_cmd("brightness set 100"))
+
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
@@ -38,10 +43,10 @@ hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
 
 -- Move active window to a monitor in a direction with thirdMod + secMod + arrow keys
-hl.bind(thirdMod .. " + " .. secMod .. " + left",  hl.dsp.window.move({ monitor = "l" }))
-hl.bind(thirdMod .. " + " .. secMod .. " + right", hl.dsp.window.move({ monitor = "r" }))
-hl.bind(thirdMod .. " + " .. secMod .. " + up",    hl.dsp.window.move({ monitor = "u" }))
-hl.bind(thirdMod .. " + " .. secMod .. " + down",  hl.dsp.window.move({ monitor = "d" }))
+hl.bind(thirdMod .. " + " .. secMod .. " + left",  hl.dsp.window.move({ window, direction = "left", group_aware = true}))
+hl.bind(thirdMod .. " + " .. secMod .. " + right", hl.dsp.window.move({ window, direction = "right", group_aware = true}))
+hl.bind(thirdMod .. " + " .. secMod .. " + up",    hl.dsp.window.move({ window, direction = "up", group_aware = true}))
+hl.bind(thirdMod .. " + " .. secMod .. " + down",  hl.dsp.window.move({ window, direction = "down", group_aware = true}))
 
 --script for moving all desktops to new section
 for i = 1, 3 do
