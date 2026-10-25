@@ -52,6 +52,7 @@ dmraid
 dnsmasq
 dolphin
 dosfstools
+drawy
 duf
 dunst
 e2fsprogs
@@ -75,6 +76,7 @@ github-desktop
 glances
 gnome-boxes
 gnome-keyring
+go
 godot
 grub
 grub-btrfs-support
@@ -85,6 +87,7 @@ gst-plugin-va
 gst-plugins-bad
 gst-plugins-ugly
 hdparm
+helium-browser-bin
 heroic-games-launcher
 hwdetect
 hwinfo
@@ -92,6 +95,7 @@ hypridle
 hyprland
 hyprlock
 hyprpaper
+hyprpm
 hyprpolkitagent
 inetutils
 iwd
@@ -106,7 +110,6 @@ lib32-gamemode
 lib32-mangohud
 lib32-vulkan-icd-loader
 lib32-vulkan-radeon
-libcava
 libdvdcss
 libgsf
 libopenraw
@@ -117,6 +120,7 @@ linux-cachyos-headers
 linux-cachyos-lts
 linux-cachyos-lts-headers
 linux-firmware
+liquidctl
 logrotate
 lsb-release
 lsp-plugins
@@ -129,7 +133,6 @@ mdadm
 meld
 mesa-utils
 micro
-minecraft-launcher
 mkinitcpio
 modemmanager
 modrinth-app
@@ -152,6 +155,8 @@ obs-studio
 obsidian
 okular
 onlyoffice-bin
+openboard
+openrgb
 openssh
 orca
 os-prober
@@ -177,9 +182,9 @@ pv
 python
 python-defusedxml
 python-packaging
+python-pip
 qemu-full
 qt5-wayland
-qt6-m3shapes-git
 qt6-wayland
 quickshell
 realtime-privileges
@@ -203,7 +208,6 @@ sudo
 swappy
 sysfsutils
 texinfo
-themechanger-git
 ttf-bitstream-vera
 ttf-dejavu
 ttf-input-nerd
@@ -212,7 +216,6 @@ ttf-liberation
 ttf-material-symbols-variable
 ttf-meslo-nerd
 ttf-opensans
-ttf-rubik-vf
 ufw
 ufw-extras
 unrar
@@ -220,8 +223,6 @@ unzip
 upower
 usb_modeswitch
 usbutils
-vesktop
-vicinae-bin
 vim
 virt-manager
 virtualbox
@@ -231,17 +232,17 @@ vlc-plugins-all
 vscodium
 vulkan-icd-loader
 vulkan-radeon
-wayle-bin
+vulkan-validation-layers
 webkit2gtk-4.1
 wev
 wezterm
 wget
 which
-win11fonts-auto
+wine
 wireplumber
 wpa_supplicant
 xdg-user-dirs
 xf86-video-amdgpu
 xfsprogs
 xl2tpd
-zed
+zip

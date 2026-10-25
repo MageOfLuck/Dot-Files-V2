@@ -1,9 +1,11 @@
+ashell-bin
+euro-office-bin
 libcava
+lorien-bin
 minecraft-launcher
+processing
 qt6-m3shapes-git
 themechanger-git
 ttf-rubik-vf
-vesktop
 vicinae-bin
-wayle-bin
 win11fonts-auto

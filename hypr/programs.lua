@@ -28,17 +28,20 @@ end)
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
 
 hl.env("JAVA_HOME", "~/jdk-26.0.2.1")
+hl.env("XDG_DATA_DIRS", "/usr/share:/usr/local/share:$XDG_DATA_DIRS")
+hl.env("WLR_DRM_NO_ATOMIC", "0")
+--hl.env("__NV_PRIME_RENDER_OFFLOAD", "1")
+hl.env("MOZ_DISABLE_RDD_SANDBOX", "1")
+--hl.env("XDG_DATA_DIRS", os.getenv("HOME") .. "/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share")
+
 hl.env("XCURSOR_THEME", "DJ-FOX-C")
 hl.env("XCURSOR_SIZE", "12")
 hl.env("HYPRCURSOR_THEME", "DJ-FOX-C")
 hl.env("HYPRCURSOR_SIZE", "12")
---hl.env("XDG_MENU_PREFIX", "plasma-")
-hl.env("XDG_DATA_DIRS", "/usr/share:/usr/local/share:$XDG_DATA_DIRS")
 hl.env("WLR_NO_HARDWARE_CURSORS", "1")
-hl.env("WLR_DRM_NO_ATOMIC", "0")
-hl.env("__NV_PRIME_RENDER_OFFLOAD", "1")
-hl.env("MOZ_DISABLE_RDD_SANDBOX", "1")
-hl.env("XDG_DATA_DIRS", os.getenv("HOME") .. "/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share")
+
+
+hl.env("QT_AUTO_SCREEN_SCALE_FACTOR", "1")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 hl.env("GTK_THEME", "Dracula")
 

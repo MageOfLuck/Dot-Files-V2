@@ -17,3 +17,5 @@ MenuPanel 1.0 MenuPanel.qml
 SleekComboBox 1.0 SleekComboBox.qml
 SleekTextField 1.0 SleekTextField.qml
 SleekSlider 1.0 SleekSlider.qml
+SectionHeading 1.0 SectionHeading.qml
+MenuCard 1.0 MenuCard.qml

@@ -14,14 +14,8 @@ Scope {
     readonly property var sink: Pipewire.defaultAudioSink
     Connections {
         target: root.sink ? root.sink.audio : null
-        function onVolumeChanged() {
-            root.osdVisible = true;
-            osdTimer.restart();
-        }
-        function onMutedChanged() {
-            root.osdVisible = true;
-            osdTimer.restart();
-        }
+        function onVolumeChanged() { root.osdVisible = true; osdTimer.restart(); }
+        function onMutedChanged() { root.osdVisible = true; osdTimer.restart(); }
     }
     Timer {
         id: osdTimer
@@ -33,7 +27,7 @@ Scope {
         visible: root.target && root.hub.popups.length > 0 && !ControlState.dnd
         anchors { top: true; right: true }
         margins { top: Settings.barHeight + 12; right: 12 }
-        implicitWidth: Math.min(360, root.screen.width - 24)
+        implicitWidth: Math.min(390, root.screen.width - 24)
         implicitHeight: Math.min(toastStack.implicitHeight, root.screen.height - Settings.barHeight - 24)
         color: "transparent"
         exclusionMode: ExclusionMode.Ignore
@@ -50,19 +44,50 @@ Scope {
                 Repeater {
                     model: root.hub.popups
                     delegate: Rectangle {
+                        id: toast
                         required property var modelData
                         width: toastStack.width
-                        height: toastText.implicitHeight + 28
-                        color: Settings.surface
-                        radius: 14
-                        border.color: Settings.elevated
-                        MouseArea { anchors.fill: parent; onClicked: root.hub.hidePopup(modelData.id) }
+                        implicitHeight: contents.implicitHeight + 26
+                        height: implicitHeight
+                        color: Settings.sectionSurface
+                        radius: 12
+                        border.color: hover.hovered ? Settings.purple : Settings.borderColor
+                        Behavior on border.color { ColorAnimation { duration: 120 } }
+                        HoverHandler {
+                            id: hover
+                            onHoveredChanged: root.hub.pausePopup(toast.modelData.id, hovered)
+                        }
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: root.hub.activate(toast.modelData.id, root.screen.name)
+                        }
                         ColumnLayout {
-                            id: toastText
-                            anchors { left: parent.left; right: parent.right; top: parent.top; margins: 14 }
+                            id: contents
+                            anchors { left: parent.left; right: parent.right; top: parent.top; margins: 13 }
+                            spacing: 6
+                            RowLayout {
+                                Layout.fillWidth: true
+                                spacing: 8
+                                Label {
+                                    font.family: Settings.fontFamily
+                                    text: toast.modelData.appName
+                                    color: Settings.muted
+                                    font.pixelSize: 11
+                                    font.bold: true
+                                    elide: Text.ElideRight
+                                    Layout.fillWidth: true
+                                }
+                                // Dismiss is independent from activating the notification.
+                                MenuButton {
+                                    text: "×"
+                                    compact: true
+                                    onClicked: root.hub.dismiss(toast.modelData.id)
+                                }
+                            }
                             Label {
                                 font.family: Settings.fontFamily
-                                text: modelData.summary
+                                text: toast.modelData.summary
                                 textFormat: Text.PlainText
                                 color: Settings.foreground
                                 font.bold: true
@@ -73,13 +98,20 @@ Scope {
                             }
                             Label {
                                 font.family: Settings.fontFamily
-                                text: modelData.body
+                                visible: text.length > 0
+                                text: toast.modelData.body
                                 textFormat: Text.PlainText
                                 color: Settings.muted
                                 wrapMode: Text.WordWrap
                                 maximumLineCount: 4
                                 elide: Text.ElideRight
                                 Layout.fillWidth: true
+                            }
+                            Label {
+                                font.family: Settings.fontFamily
+                                text: toast.modelData.hasDefault ? "Click to open" : "Click to view details"
+                                font.pixelSize: 10
+                                color: Settings.muted
                             }
                         }
                     }
@@ -90,9 +122,7 @@ Scope {
     PanelWindow {
         screen: root.screen
         visible: root.target && root.osdVisible && ControlState.menu !== "audio"
-        anchors {
-            bottom: true
-        }
+        anchors { bottom: true }
         margins.bottom: 60
         implicitWidth: 270
         implicitHeight: 72
@@ -100,17 +130,14 @@ Scope {
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "edge-control-osd"
         WlrLayershell.layer: WlrLayer.Overlay
-        mask: Region {} // display only; no input interception
+        mask: Region {}
         Rectangle {
             anchors.fill: parent
-            color: Settings.surface
-            radius: 14
-            border.color: Settings.elevated
+            color: Settings.sectionSurface
+            radius: 12
+            border.color: Settings.borderColor
             ColumnLayout {
-                anchors {
-                    fill: parent
-                    margins: 14
-                }
+                anchors { fill: parent; margins: 14 }
                 Label {
                     font.family: Settings.fontFamily
                     color: Settings.foreground

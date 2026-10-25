@@ -32,6 +32,7 @@ ShellRoot {
             }
             MenuPanel {
                 screen: modelData
+                assignedScreenName: modelData.name
             }
             SpaceReservation {
                 screen: modelData

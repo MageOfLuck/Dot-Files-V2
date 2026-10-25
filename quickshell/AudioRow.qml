@@ -34,6 +34,8 @@ ColumnLayout {
             font.family: Settings.fontFamily
             color: Settings.muted
             text: row.ready ? Math.round(row.node.audio.volume * 100) + "%" : "—"
+            Layout.preferredWidth: 40
+            horizontalAlignment: Text.AlignRight
         }
         MenuButton {
             text: row.ready && row.node.audio.muted ? "Unmute" : "Mute"

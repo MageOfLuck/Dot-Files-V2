@@ -57,10 +57,10 @@ selection, volume control, saved Bluetooth connections or basic Wi-Fi controls.
 
 ## Behavior
 
-- Hover within 12 pixels of the top edge for 180 ms to reveal the strip.
+- Hover within 8 pixels of the top edge for 80 ms to reveal the strip.
   Adjust `edgeHeight` and `revealDelay` in Settings.qml.
-- The strip slides in/out over 220 ms. Adjust `animationDuration` if desired.
-- When reservation is off, the strip hides after leaving it for 650 ms, unless
+- The strip slides in/out over 270 ms. Adjust `animationDuration` if desired.
+- When reservation is off, the strip hides after leaving it for 200 ms, unless
   a menu is open. Reservation on keeps the strip visible.
 - Bar geometry is fixed; menus use a separate overlay and do not resize it.
 - Menus stay open until Escape, the close button, clicking outside, or toggling
@@ -102,7 +102,7 @@ selection, volume control, saved Bluetooth connections or basic Wi-Fi controls.
   networks need the connection editor. Saved enterprise profiles may connect
   directly if their credentials/secret agent are available.
 - Notification history and DND are session-only; quitting Quickshell clears them.
-  Popups show the most recent notification, rather than a stacked popup queue.
+  Popups stack up to `notificationMaxVisible` (default 3), with hover-paused timeouts and separate open/dismiss controls.
 - The dashboard shows CPU load averages, not CPU utilization percentages.
 - The default logout command is copied exactly from your Wayle configuration.
   Adjust it if your Hyprland dispatcher syntax changes.
@@ -199,3 +199,27 @@ strip. Existing bold bar text has been retained.
 
 The separate windows and compositor behavior still need a desktop test; the
 menus and strip layout passed offscreen checks with simulated services.
+
+## Menu and notification interaction update (2026-10-22)
+
+See `CHANGES.md` for the details of this refinement. All menu content now uses
+consistent section headings, inset cards, spacing, borders, typography and
+centered dropdown chevrons. Tabs on the top bar highlight when their menu is open.
+
+Notification popups **no longer disappear without taking an action when clicked**:
+clicking a popup or notification-history card invokes the application's
+`default` notification action, if it provides one. If no default action exists,
+a popup click opens the notification menu so that you can explicitly choose
+an action. Notifications without default actions cannot be forced to open an
+application; this behavior depends on the sending app. Close/Dismiss buttons
+remain separate. Simply hiding a toast does not delete notification history.
+Notifications are retained for the session (up to 100) unless dismissed or
+expired. Popups pause while hovered.
+
+The media menu additionally includes a track seek slider and elapsed/total time
+when the connected MPRIS player supports these capabilities.
+
+This build passed structural checks and JavaScript mock tests for notification
+behavior, but was not executed in a full Hyprland/Quickshell session in the build
+environment. Test with your installed Quickshell 0.3.2, and revert to the backup
+created by `install.sh --update` if there are compositor-specific issues.

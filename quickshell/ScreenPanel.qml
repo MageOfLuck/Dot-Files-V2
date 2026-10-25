@@ -87,20 +87,31 @@ PanelWindow {
             spacing: 6
             MenuButton {
                 text: "System"
+                selected: panel.menuOpen && ControlState.menu === "dashboard"
                 onClicked: ControlState.toggle("dashboard", panel.screen.name, false)
             }
-            Repeater {
-                model: Hyprland.workspaces
-                delegate: MenuButton {
-                    required property var modelData
-                    visible: modelData.id > 0 && !!modelData.monitor && modelData.monitor.name === panel.screen.name
-                    text: modelData.name
-                    selected: modelData.active
-                    onClicked: ControlState.run("hyprctl dispatch workspace " + modelData.id)
+            RowLayout {
+                spacing: 4
+                Repeater {
+                    model: Hyprland.workspaces
+                    delegate: MenuButton {
+                        required property var modelData
+                        visible: modelData.id > 0 && !!modelData.monitor && modelData.monitor.name === panel.screen.name
+                        workspaceButton: true
+                        text: modelData.name
+                        selected: modelData.active
+                        // Activate through Quickshell's Hyprland IPC rather than
+                        // launching a separate shell and hyprctl process.
+                        onClicked: modelData.activate()
+                        ToolTip.visible: hovered
+                        ToolTip.delay: 600
+                        ToolTip.text: "Switch to workspace " + modelData.name
+                    }
                 }
             }
             MenuButton {
                 Layout.maximumWidth: 180
+                selected: panel.menuOpen && ControlState.menu === "media"
                 text: Mpris.players.values.length ? (Mpris.players.values[0].trackTitle || "Media") : "Media"
                 onClicked: ControlState.toggle("media", panel.screen.name, false)
             }
@@ -126,15 +137,18 @@ PanelWindow {
             spacing: 6
             MenuButton {
                 text: "Bluetooth"
+                selected: panel.menuOpen && ControlState.menu === "bluetooth"
                 onClicked: ControlState.toggle("bluetooth", panel.screen.name, false)
             }
             MenuButton {
                 audioAccent: true
+                selected: panel.menuOpen && ControlState.menu === "audio"
                 text: Pipewire.defaultAudioSink && Pipewire.defaultAudioSink.audio ? (Pipewire.defaultAudioSink.audio.muted ? "Muted" : Math.round(Pipewire.defaultAudioSink.audio.volume * 100) + "%") : "Audio"
                 onClicked: ControlState.toggle("audio", panel.screen.name, false)
             }
             MenuButton {
                 text: "Network"
+                selected: panel.menuOpen && ControlState.menu === "network"
                 onClicked: ControlState.toggle("network", panel.screen.name, false)
             }
             Rectangle {
@@ -145,10 +159,12 @@ PanelWindow {
             }
             MenuButton {
                 text: ControlState.dnd ? "DND" : "Notifications"
+                selected: panel.menuOpen && ControlState.menu === "notifications"
                 onClicked: ControlState.toggle("notifications", panel.screen.name, false)
             }
             MenuButton {
                 text: Qt.formatDateTime(clock.date, "ddd h:mm AP")
+                selected: panel.menuOpen && ControlState.menu === "clock"
                 onClicked: ControlState.toggle("clock", panel.screen.name, false)
             }
         }

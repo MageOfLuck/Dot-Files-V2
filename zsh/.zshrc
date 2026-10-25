@@ -21,7 +21,8 @@ alias search='pacman -Ss'
 alias remove='sudo pacman -R'
 alias removeAll='sudo pacman -Rns'
 alias listOrphans='pacman -Qdt'
-alias showAllPackages='pacman -Qqe'
+alias showNative='pacman -Qqn'
+alias showAUR='paru -Qqm'
 alias isInstalled='pacman -Qqs'
 
 # better completion menu

@@ -7,6 +7,9 @@ QtObject {
     property color purple: '#7668c5'
     property color foreground: "#f0edf8"
     property color muted: "#b8b2c8"
+    property color sectionSurface: "#302a3d"
+    property color hoverSurface: "#423853"
+    property color borderColor: "#4c435d"
     property bool menusOnly: false
     property bool reserveSpace: false
     property string fontFamily: "Noto Sans"
@@ -22,5 +25,6 @@ QtObject {
     property string bluetoothManager: "blueman-manager"
     property string networkEditor: "nm-connection-editor"
     property int notificationMaxVisible: 3
-    property int notificationDuration: 3500
+    property int notificationDuration: 5000
+    property int notificationHistoryLimit: 100
 }

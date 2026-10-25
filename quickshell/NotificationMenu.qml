@@ -6,84 +6,113 @@ MenuView {
     id: view
     implicitHeight: body.implicitHeight
     clip: true
+    readonly property var hub: ControlState.notificationHub
+    readonly property var entries: hub ? hub.notifications.values.slice().reverse() : []
+
     ColumnLayout {
         id: body
         width: view.availableWidth
         spacing: 12
         RowLayout {
+            Layout.fillWidth: true
             MenuButton {
-                text: ControlState.dnd ? "DND on" : "DND off"
+                text: ControlState.dnd ? "Do not disturb · On" : "Do not disturb · Off"
                 selected: ControlState.dnd
-                onClicked: {
-                    ControlState.dnd = !ControlState.dnd;
-                    if (ControlState.dnd && ControlState.notificationHub)
-                        ControlState.notificationHub.toastVisible = false;
-                }
+                onClicked: ControlState.dnd = !ControlState.dnd
             }
+            Item { Layout.fillWidth: true }
             MenuButton {
                 text: "Clear all"
-                onClicked: if (ControlState.notificationHub)
-                    ControlState.notificationHub.clear()
+                enabled: view.entries.length > 0
+                onClicked: if (view.hub) view.hub.clear()
             }
         }
+        SectionHeading { text: "Recent"; detail: view.entries.length + " total" }
         Label {
-            font.family: Settings.fontFamily
-            visible: !ControlState.notificationHub || ControlState.notificationHub.notifications.values.length === 0
-            text: "No notifications."
+            Layout.fillWidth: true
+            visible: view.entries.length === 0
+            horizontalAlignment: Text.AlignHCenter
+            text: "You're all caught up."
             color: Settings.muted
+            font.family: Settings.fontFamily
+            topPadding: 22
+            bottomPadding: 22
         }
         Repeater {
-            model: ControlState.notificationHub ? ControlState.notificationHub.notifications.values.slice().reverse() : []
-            delegate: ColumnLayout {
+            model: view.entries
+            delegate: MenuCard {
+                id: itemCard
                 required property var modelData
-                Layout.fillWidth: true
-                RowLayout {
-                    Label {
-                        font.family: Settings.fontFamily
-                        text: modelData.appName
-                        color: Settings.muted
-                        Layout.fillWidth: true
-                        elide: Text.ElideRight
-                    }
-                    MenuButton {
-                        text: "×"
-                        onClicked: modelData.dismiss()
-                    }
-                }
-                Label {
-                    font.family: Settings.fontFamily
-                    text: modelData.summary
-                    color: Settings.foreground
-                    font.bold: true
-                    wrapMode: Text.WordWrap
-                    textFormat: Text.PlainText
+                readonly property bool hasDefault: !!view.hub && view.hub.hasDefaultAction(modelData.id)
+                MouseArea {
+                    // Only the information area activates, never the buttons.
                     Layout.fillWidth: true
-                }
-                Label {
-                    font.family: Settings.fontFamily
-                    text: modelData.body
-                    color: Settings.foreground
-                    wrapMode: Text.WordWrap
-                    textFormat: Text.PlainText
-                    Layout.fillWidth: true
-                }
-                Flow {
-                    Layout.fillWidth: true
-                    spacing: 6
-                    Repeater {
-                        model: modelData.actions
-                        delegate: MenuButton {
-                            required property var modelData
-                            text: modelData.text
-                            onClicked: modelData.invoke()
+                    implicitHeight: content.implicitHeight
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: view.hub.activate(itemCard.modelData.id, ControlState.monitor)
+                    ColumnLayout {
+                        id: content
+                        width: parent.width
+                        spacing: 6
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Label {
+                                text: itemCard.modelData.appName || "Application"
+                                font.family: Settings.fontFamily
+                                color: Settings.muted
+                                font.bold: true
+                                font.pixelSize: 11
+                                elide: Text.ElideRight
+                                Layout.fillWidth: true
+                            }
+                            Label {
+                                text: itemCard.hasDefault ? "Open ↗" : "Details"
+                                font.family: Settings.fontFamily
+                                color: Settings.muted
+                                font.pixelSize: 10
+                            }
+                        }
+                        Label {
+                            Layout.fillWidth: true
+                            text: itemCard.modelData.summary
+                            textFormat: Text.PlainText
+                            color: Settings.foreground
+                            font.family: Settings.fontFamily
+                            font.bold: true
+                            wrapMode: Text.WordWrap
+                        }
+                        Label {
+                            Layout.fillWidth: true
+                            visible: text.length > 0
+                            text: itemCard.modelData.body
+                            textFormat: Text.PlainText
+                            color: Settings.muted
+                            font.family: Settings.fontFamily
+                            wrapMode: Text.WordWrap
                         }
                     }
                 }
-                Rectangle {
+                Flow {
                     Layout.fillWidth: true
-                    height: 1
-                    color: Settings.elevated
-                    opacity: 0.4
+                    visible: itemCard.modelData.actions.length > 0
+                    spacing: 6
+                    Repeater {
+                        model: itemCard.modelData.actions
+                        delegate: MenuButton {
+                            required property var modelData
+                            text: modelData.text || "Open"
+                            onClicked: view.hub.invokeAction(itemCard.modelData.id, modelData.identifier)
+                        }
+                    }
+                }
+                RowLayout {
+                    Layout.fillWidth: true
+                    Item { Layout.fillWidth: true }
+                    MenuButton {
+                        text: "Dismiss"
+                        compact: true
+                        onClicked: view.hub.dismiss(itemCard.modelData.id)
+                    }
                 }
             }
         }
