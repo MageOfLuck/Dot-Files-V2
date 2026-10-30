@@ -24,7 +24,7 @@ sudo pacman -Syyu --noconfirm
 ok "System up to date."
 
 # ================================================================
-# 2. AUR helper
+# 1. AUR helper
 # ================================================================
 AUR_HELPER=""
 if command -v paru &>/dev/null; then
@@ -41,7 +41,7 @@ else
 fi
 
 # ================================================================
-# 4. Optional extra packages from pkglist.txt / aurpacks.txt
+# 2. Optional extra packages from pkglist.txt / aurpacks.txt
 #     (drop these next to the script if you keep a running list)
 # ================================================================
 if [[ -f "$SCRIPT_DIR/pkglist.txt" ]]; then
@@ -57,7 +57,7 @@ if [[ -f "$SCRIPT_DIR/aurpacks.txt" ]]; then
 fi
 
 # ================================================================
-# 5. Shell — set zsh as default
+# 3. Shell — set zsh as default
 # ================================================================
 if [[ "$SHELL" != *zsh ]]; then
     info "Setting zsh as your default shell (you'll be prompted for your password)..."
@@ -68,45 +68,7 @@ else
 fi
 
 # ================================================================
-# 6. Baseline .zshrc (only if none exists — won't clobber yours)
-# ================================================================
-ZSHRC="$HOME/.zshrc"
-if [[ ! -f "$ZSHRC" ]]; then
-    info "No .zshrc found, writing a baseline one..."
-    cat > "$ZSHRC" <<'EOF'
-# ---- history ----
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt APPEND_HISTORY
-setopt HIST_IGNORE_DUPS
-setopt SHARE_HISTORY
-
-# ---- completion ----
-autoload -Uz compinit && compinit
-zstyle ':completion:*' menu select
-
-# ---- plugins (from pacman packages) ----
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# ---- prompt ----
-eval "$(starship init zsh)"
-
-# ---- aliases ----
-alias ls='eza --icons'
-alias ll='eza -l --icons'
-alias cat='bat'
-alias pacs='pacman -Ss'
-alias update='sudo pacman -Syu'
-EOF
-    ok "Baseline .zshrc written to $ZSHRC"
-else
-    warn ".zshrc already exists, leaving it untouched. Merge the snippet manually if you want it."
-fi
-
-# ================================================================
-# 7. Dotfiles — clone and stow
+# 4. Dotfiles — clone
 # ================================================================
 DOTFILES_DIR="$HOME/.dotfiles"
 if [[ ! -d "$DOTFILES_DIR" ]]; then

@@ -1,0 +1,35 @@
+[metadata]
+name = 'Amethyst Tide'
+
+[colors]
+foreground = '#E5DFF0'
+background = '#2b2947'
+cursor_bg = '#BDA8F1'
+cursor_fg = '#302B43'
+cursor_border = '#BDA8F1'
+selection_bg = '#55476F'
+selection_fg = '#F6F0FF'
+scrollbar_thumb = '#6D5A9C'
+split = '#66577E'
+
+ansi = [
+  '#3E3853', # black (plum)
+  '#DE5976', # red (coral)
+  '#48B85F', # green (mint)
+  '#D9B978', # yellow (gold)
+  '#86B9D6', # blue (ice)
+  '#9B84DC', # magenta (amethyst)
+  '#327F83', # cyan (dark turquoise)
+  '#D5CCE4', # white (silver lavender)
+]
+
+brights = [
+  '#716783', # bright black (slate lavender)
+  '#DE6F81', # bright red
+  '#A7DEC7', # bright green
+  '#F0C987', # bright yellow
+  '#ACD7EF', # bright blue
+  '#BDA8F1', # bright magenta
+  '#7BD1C5', # bright cyan
+  '#F6F0FF', # bright white
+]

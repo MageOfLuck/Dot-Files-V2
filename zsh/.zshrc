@@ -24,6 +24,7 @@ alias listOrphans='pacman -Qdt'
 alias showNative='pacman -Qqn'
 alias showAUR='paru -Qqm'
 alias isInstalled='pacman -Qqs'
+alias bloodborne='./Applications/Bloodborne-bbport-x86_64.AppImage & disown'
 
 # better completion menu
 zstyle ':completion:*' menu select

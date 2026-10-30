@@ -86,7 +86,9 @@ PanelWindow {
             }
             spacing: 6
             MenuButton {
-                text: "System"
+                iconButton: true
+                text: String.fromCodePoint(0xF0493) // nf-md-cog (monochrome System icon)
+                hint: "System"
                 selected: panel.menuOpen && ControlState.menu === "dashboard"
                 onClicked: ControlState.toggle("dashboard", panel.screen.name, false)
             }
@@ -110,9 +112,10 @@ PanelWindow {
                 }
             }
             MenuButton {
-                Layout.maximumWidth: 180
+                iconButton: true
                 selected: panel.menuOpen && ControlState.menu === "media"
-                text: Mpris.players.values.length ? (Mpris.players.values[0].trackTitle || "Media") : "Media"
+                text: String.fromCodePoint(0xF0387) // nf-md-music_note
+                hint: Mpris.players.values.length ? (Mpris.players.values[0].trackTitle || "Media") : "Media"
                 onClicked: ControlState.toggle("media", panel.screen.name, false)
             }
         }
@@ -136,18 +139,32 @@ PanelWindow {
             }
             spacing: 6
             MenuButton {
-                text: "Bluetooth"
+                iconButton: true
+                text: String.fromCodePoint(0xF00AF) // nf-md-bluetooth
+                hint: "Bluetooth"
                 selected: panel.menuOpen && ControlState.menu === "bluetooth"
                 onClicked: ControlState.toggle("bluetooth", panel.screen.name, false)
             }
             MenuButton {
+                iconButton: true
                 audioAccent: true
                 selected: panel.menuOpen && ControlState.menu === "audio"
-                text: Pipewire.defaultAudioSink && Pipewire.defaultAudioSink.audio ? (Pipewire.defaultAudioSink.audio.muted ? "Muted" : Math.round(Pipewire.defaultAudioSink.audio.volume * 100) + "%") : "Audio"
+                // Keep the speaker glyph separate from the normal-font volume
+                // percentage, so the number is not rendered in a Nerd Font.
+                text: Pipewire.defaultAudioSink && Pipewire.defaultAudioSink.audio && Pipewire.defaultAudioSink.audio.muted
+                      ? String.fromCodePoint(0xF0581) // nf-md-volume_off
+                      : String.fromCodePoint(0xF057E) // nf-md-volume_high
+                valueText: Pipewire.defaultAudioSink && Pipewire.defaultAudioSink.audio && !Pipewire.defaultAudioSink.audio.muted
+                           ? Math.round(Pipewire.defaultAudioSink.audio.volume * 100) + "%" : ""
+                hint: Pipewire.defaultAudioSink && Pipewire.defaultAudioSink.audio
+                      ? (Pipewire.defaultAudioSink.audio.muted ? "Audio muted" : "Audio · " + Math.round(Pipewire.defaultAudioSink.audio.volume * 100) + "%")
+                      : "Audio"
                 onClicked: ControlState.toggle("audio", panel.screen.name, false)
             }
             MenuButton {
-                text: "Network"
+                iconButton: true
+                text: String.fromCodePoint(0xF05A9) // nf-md-wifi
+                hint: "Network"
                 selected: panel.menuOpen && ControlState.menu === "network"
                 onClicked: ControlState.toggle("network", panel.screen.name, false)
             }
@@ -158,12 +175,14 @@ PanelWindow {
                 opacity: 0.5
             }
             MenuButton {
-                text: ControlState.dnd ? "DND" : "Notifications"
+                iconButton: true
+                text: ControlState.dnd ? String.fromCodePoint(0xF009B) : String.fromCodePoint(0xF009C) // nf-md-bell_off / nf-md-bell_outline
+                hint: ControlState.dnd ? "Notifications · Do Not Disturb" : "Notifications"
                 selected: panel.menuOpen && ControlState.menu === "notifications"
                 onClicked: ControlState.toggle("notifications", panel.screen.name, false)
             }
             MenuButton {
-                text: Qt.formatDateTime(clock.date, "ddd h:mm AP")
+                text: Qt.formatDateTime(clock.date, "dddd h:mm AP")
                 selected: panel.menuOpen && ControlState.menu === "clock"
                 onClicked: ControlState.toggle("clock", panel.screen.name, false)
             }

@@ -12,6 +12,13 @@ Scope {
     readonly property bool target: screen.name === (Quickshell.screens.find(s => s.name === Settings.popupMonitor) || Quickshell.screens[0]).name
     property bool osdVisible: false
     readonly property var sink: Pipewire.defaultAudioSink
+    readonly property real outputVolume: root.sink && root.sink.audio ? root.sink.audio.volume : 0
+    readonly property bool outputMuted: root.sink && root.sink.audio ? root.sink.audio.muted : false
+    readonly property int volumePercent: Math.round(root.outputVolume * 100)
+    readonly property string volumeIcon: String.fromCodePoint(
+        root.outputMuted || root.volumePercent === 0 ? 0xF0581 : // nf-md-volume_off
+        root.volumePercent < 34 ? 0xF057F :                   // nf-md-volume_low
+        root.volumePercent < 67 ? 0xF0580 : 0xF057E)          // nf-md-volume_medium/high
     Connections {
         target: root.sink ? root.sink.audio : null
         function onVolumeChanged() { root.osdVisible = true; osdTimer.restart(); }
@@ -119,34 +126,125 @@ Scope {
             }
         }
     }
+    // Compact, non-interactive output-volume OSD. This is shown whenever
+    // the default PipeWire sink changes volume or mute state (keyboard knob,
+    // media keys, or other mixers) without affecting the main Audio menu.
     PanelWindow {
         screen: root.screen
         visible: root.target && root.osdVisible && ControlState.menu !== "audio"
         anchors { bottom: true }
         margins.bottom: 60
-        implicitWidth: 270
-        implicitHeight: 72
+        implicitWidth: 296
+        implicitHeight: 96
         color: "transparent"
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "edge-control-osd"
         WlrLayershell.layer: WlrLayer.Overlay
+        // The OSD never captures clicks or wheel events from applications.
         mask: Region {}
+
         Rectangle {
             anchors.fill: parent
-            color: Settings.sectionSurface
-            radius: 12
+            radius: 15
+            color: Settings.surface
+            border.width: 1
             border.color: Settings.borderColor
+
             ColumnLayout {
-                anchors { fill: parent; margins: 14 }
-                Label {
-                    font.family: Settings.fontFamily
-                    color: Settings.foreground
-                    text: root.sink && root.sink.audio ? (root.sink.audio.muted ? "Muted" : "Volume " + Math.round(root.sink.audio.volume * 100) + "%") : "No output"
-                }
-                ProgressBar {
+                anchors.fill: parent
+                anchors.margins: 13
+                spacing: 9
+
+                // A fixed-size icon tile prevents different speaker glyphs from
+                // shifting the label or the percentage as the volume changes.
+                Item {
                     Layout.fillWidth: true
-                    value: root.sink && root.sink.audio ? root.sink.audio.volume : 0
-                    palette.highlight: Settings.purple
+                    Layout.preferredHeight: 45
+
+                    Rectangle {
+                        id: volumeIconTile
+                        width: 45
+                        height: 45
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        radius: 11
+                        color: Settings.sectionSurface
+                        border.width: 1
+                        border.color: Settings.borderColor
+
+                        Text {
+                            // Use the entire fixed tile for alignment rather than
+                            // centering the variable-width implicit glyph bounds.
+                            anchors.fill: parent
+                            text: root.volumeIcon
+                            font.family: Settings.iconFontFamily
+                            font.pixelSize: 24
+                            font.bold: false
+                            color: root.outputMuted ? Settings.muted : Settings.foreground
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
+
+                    Column {
+                        anchors.left: volumeIconTile.right
+                        anchors.leftMargin: 11
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 2
+
+                        Text {
+                            text: "AUDIO"
+                            font.family: Settings.fontFamily
+                            font.pixelSize: 10
+                            font.bold: true
+                            font.letterSpacing: 0.7
+                            color: Settings.muted
+                        }
+                        Text {
+                            text: !root.sink || !root.sink.audio ? "No output" : root.outputMuted ? "Muted" : "Volume"
+                            font.family: Settings.fontFamily
+                            font.pixelSize: 14
+                            font.bold: true
+                            color: Settings.foreground
+                        }
+                    }
+
+                    // Anchoring this to the right edge keeps 5%, 95% and 100%
+                    // at the same right boundary instead of moving with text width.
+                    Text {
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: root.sink && root.sink.audio ? root.volumePercent + "%" : "—"
+                        font.family: Settings.fontFamily
+                        font.pixelSize: 22
+                        font.bold: true
+                        color: root.outputMuted ? Settings.muted : Settings.foreground
+                        horizontalAlignment: Text.AlignRight
+                    }
+                }
+
+                // Custom progress track, with no platform-native padding.
+                Rectangle {
+                    id: volumeTrack
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 7
+                    radius: 3.5
+                    color: Settings.hoverSurface
+                    clip: true
+
+                    Rectangle {
+                        height: parent.height
+                        width: parent.width * Math.min(1, Math.max(0, root.outputVolume))
+                        radius: parent.radius
+                        color: root.outputMuted ? Settings.muted : Settings.purple
+                        opacity: root.outputMuted ? 0.5 : 1
+                        Behavior on width {
+                            NumberAnimation {
+                                duration: 110
+                                easing.type: Easing.OutCubic
+                            }
+                        }
+                    }
                 }
             }
         }

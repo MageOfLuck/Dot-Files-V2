@@ -13,6 +13,9 @@ QtObject {
     property bool menusOnly: false
     property bool reserveSpace: false
     property string fontFamily: "Noto Sans"
+    // Install a Nerd Font symbols font, or set this to an installed Nerd Font family.
+    property string iconFontFamily: "Symbols Nerd Font Mono"
+    property int barIconSize: 19
     property int edgeHeight: 8
     property int animationDuration: 270
     property int revealDelay: 80

@@ -105,12 +105,29 @@ MenuView {
                     spacing: 7
                     MenuButton {
                         text: "Lock"
+                        leadingIcon: String.fromCodePoint(0xF033E) // nf-md-lock
                         onClicked: { ControlState.run(Settings.lockCommand); ControlState.close(); }
                     }
-                    MenuButton { text: "Suspend"; onClicked: view.confirmAction = "suspend" }
-                    MenuButton { text: "Log out"; onClicked: view.confirmAction = "logout" }
-                    MenuButton { text: "Reboot"; onClicked: view.confirmAction = "reboot" }
-                    MenuButton { text: "Power off"; onClicked: view.confirmAction = "poweroff" }
+                    MenuButton {
+                        text: "Suspend"
+                        leadingIcon: String.fromCodePoint(0xF04B2) // nf-md-sleep
+                        onClicked: view.confirmAction = "suspend"
+                    }
+                    MenuButton {
+                        text: "Log out"
+                        leadingIcon: String.fromCodePoint(0xF0343) // nf-md-logout
+                        onClicked: view.confirmAction = "logout"
+                    }
+                    MenuButton {
+                        text: "Reboot"
+                        leadingIcon: String.fromCodePoint(0xF0709) // nf-md-restart
+                        onClicked: view.confirmAction = "reboot"
+                    }
+                    MenuButton {
+                        text: "Shutdown"
+                        leadingIcon: String.fromCodePoint(0xF0425) // nf-md-power
+                        onClicked: view.confirmAction = "poweroff"
+                    }
                 }
                 RowLayout {
                     visible: view.confirmAction !== ""
@@ -118,7 +135,7 @@ MenuView {
                     Label {
                         font.family: Settings.fontFamily
                         color: Settings.foreground
-                        text: "Confirm " + view.confirmAction + "?"
+                        text: "Confirm " + (view.confirmAction === "poweroff" ? "shutdown" : view.confirmAction) + "?"
                         Layout.fillWidth: true
                     }
                     MenuButton {
